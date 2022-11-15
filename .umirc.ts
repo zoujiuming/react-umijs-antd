@@ -1,5 +1,5 @@
 import { defineConfig } from '@umijs/max';
-
+import { routes } from './src/config/config';
 export default defineConfig({
   antd: {},
   access: {},
@@ -9,26 +9,20 @@ export default defineConfig({
   layout: {
     title: '@umijs/max',
   },
-  routes: [
-    {
-      path: '/',
-      redirect: '/home',
+  routes: routes,
+  proxy: {
+    '/mock': {
+      target: 'https://console-mock.apipost.cn',
+      changeOrigin: true,
+      pathRewrite: {
+        '/mock': '/app/mock/project/be0a5711-adf4-4a36-b6ce-0773641e31e7',
+      },
     },
-    {
-      name: '首页',
-      path: '/home',
-      component: './Home',
-    },
-    {
-      name: '权限演示',
-      path: '/access',
-      component: './Access',
-    },
-    {
-      name: ' CRUD 示例',
-      path: '/table',
-      component: './Table',
-    },
-  ],
+    // '/api': {
+    //   target: 'http://jsonplaceholder.typicode.com/',
+    //   changeOrigin: true,
+    //   pathRewrite: { '^/api': '' },
+    // },
+  },
   npmClient: 'npm',
 });
